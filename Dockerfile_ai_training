@@ -1,0 +1,8 @@
+FROM huggingface/transformers-tensorflow-gpu
+
+COPY requirements.txt /home/wouldd/code/
+WORKDIR /home/wouldd/code/
+RUN pip install -r requirements.txt
+COPY . /home/wouldd/code/
+
+CMD ["/bin/bash"]

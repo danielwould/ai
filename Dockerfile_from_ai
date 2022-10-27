@@ -1,0 +1,26 @@
+FROM police-trained:v1
+
+COPY requirements.txt /home/wouldd/code/
+WORKDIR /home/wouldd/code/
+RUN pip install -r requirements.txt
+
+COPY web_ui /home/wouldd/code/web_ui
+COPY certs /home/wouldd/code/certs
+RUN chown -R www-data:www-data /home/wouldd/code/web_ui
+RUN apt install software-properties-common -y;exit 0
+RUN apt-add-repository -r ppa:certbot/certbot -y;exit 0
+RUN apt update;exit 0
+RUN apt install certbot -y;exit 0
+#RUN apt install gunicorn -y;exit 0
+#RUN apt install nginx -y; exit 0
+#COPY nginx.conf /etc/nginx/sites-available/application.conf
+#RUN ln -s /etc/nginx/sites-available/application.conf /etc/nginx/sites-enabled/
+#COPY application.service /etc/systemd/system/application.service
+EXPOSE 5000/tcp
+EXPOSE 80/tcp
+#RUN systemctl restart application.service
+#RUN systemctl daemon-reload
+ENV FLASK_APP=web_ui
+CMD flask run -h 0.0.0.0 --cert=/etc/letsencrypt/live/ai.makergeek.co.uk/fullchain.pem --key=/etc/letsencrypt/live/ai.makergeek.co.uk/privatekey.pem
+
+#CMD ["nginx", "-g", "daemon off;"]
