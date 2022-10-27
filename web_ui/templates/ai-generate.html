@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Center the loader */
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 120px;
+      height: 120px;
+      margin: -76px 0 0 -76px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+    
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    </style>
+<h3 class="title">MDawg's Marvelous Mildly Mad Manuscrupt Making Machine</h3>
+    <div class="box">
+        
+        <div class="slidecontainer">
+            <p>Scenes to generate:</p>
+            <input type="range" min="1" max="10" value="2" class="slider" id="generate-count" oninput="this.nextElementSibling.value = this.value">
+            <output>2</output>
+          </div>
+        <div class="slidecontainer">
+            <p>creativity:</p>
+            <input type="range" min="1" max="100" value="20" class="slider" id="weirdness" oninput="this.nextElementSibling.value = this.value">
+            <output>20</output>
+        </div>
+        <div class="slidecontainer">
+            <p>random seed:</p>
+            <input type="range" min="1" max="100" value="42" class="slider" id="random-seed" oninput="this.nextElementSibling.value = this.value">
+            <output>42</output>
+        </div>
+        <div class="field">
+            <div class="control">
+                <textarea class="textarea is-link" id="prompt" placeholder="She's our prime suspect "></textarea>
+            </div>
+        </div>
+
+
+        <button class="button is-block is-info is-large is-fullwidth" onclick="generate_text()">Generate!</button>
+        
+    </div>
+    <div class="box">
+        <div id="loader" style="display:none"></div>
+        <p id="ai-output" style="text-align:left;"></p>
+    </div>
+    <div class="box">
+        <a href="{{ url_for('static', filename='files/scenes.csv') }}">Training Data(8.2MB)</p>
+    </div>
+    <script src="{{ url_for('static', filename='js/actions.js') }}"></script>
+{% endblock %}
